@@ -7,19 +7,18 @@ const MealDetailes = () => {
     const { mealId } = useParams();  // Extract mealId from the URL
     const [details, setdetails] = useState([]);  // State for storing meal details
   
-    const getMealDetails = async () => {
-      const data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`);
-      console.log('API Response:', data.data);
-
-      if (data.data.meals && data.data.meals.length > 0) {
-        setdetails(data.data.meals[0]);
-      }else{
-        console.log('No meal found with ID:', mealId);
-      }
-    }
     useEffect(() => {
+      const getMealDetails = async () => {
+        const data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`);
+        console.log('API Response:', data.data);
+        if (data.data.meals && data.data.meals.length > 0) {
+          setdetails(data.data.meals[0]);
+        } else {
+          console.log('No meal found with ID:', mealId);
+        }
+      };
       getMealDetails();
-    }, []);
+    }, [mealId]);
 
     const ingredients = [];
       for (let i = 1; i <= 20; i++) {

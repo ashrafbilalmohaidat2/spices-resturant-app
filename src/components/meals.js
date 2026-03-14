@@ -8,23 +8,18 @@ const Meals =() =>{
 
   const { categoryName } = useParams();
   const [meals, setMeals] = useState([]);
-  const [error, setError] = useState(null);
-
-    // Function to fetch meals by category
+  useEffect(() => {
     const fetchMeals = async () => {
       try {
-        //setLoading(true); // Start loading
         const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
-        setMeals(response.data.meals); // Store the meals in state
+        setMeals(response.data.meals);
         console.log(response.data.meals);
       } catch (err) {
-        setError('Error fetching meals'); // Set error if request fails
-      } 
+        console.error('Error fetching meals', err);
+      }
     };
-  
-  useEffect(() => {
     fetchMeals();
-  }, []);
+  }, [categoryName]);
 
     return(
         
